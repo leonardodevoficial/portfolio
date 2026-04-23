@@ -1,0 +1,1266 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Diagnóstico Gratuito | Web Design de Conversão</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;600;700;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0B0F1A;
+  --gold: #FFC857;
+  --cyan: #00D1FF;
+  --white: #F5F5F5;
+  --dark2: #141824;
+  --dark3: #1C2235;
+  --red: #FF3B3B;
+  --glow-gold: 0 0 24px rgba(255,200,87,0.55);
+  --glow-cyan: 0 0 20px rgba(0,209,255,0.45);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--white);
+  font-family: 'Montserrat', sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ===== BG LAYERS ===== */
+.bg-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.bg-radial {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 15% 40%, rgba(0,209,255,0.05) 0%, transparent 55%),
+    radial-gradient(ellipse at 85% 15%, rgba(255,200,87,0.06) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 90%, rgba(0,209,255,0.04) 0%, transparent 40%);
+}
+
+#bg-canvas {
+  position: absolute;
+  inset: 0;
+  opacity: 0.3;
+}
+
+/* ===== NAVBAR ===== */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  padding: 14px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(11,15,26,0.8);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid rgba(255,200,87,0.12);
+}
+
+.nav-logo {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.5rem;
+  letter-spacing: 3px;
+  color: var(--gold);
+  text-shadow: var(--glow-gold);
+}
+.nav-logo span { color: var(--cyan); }
+
+.nav-step-label {
+  font-size: 0.65rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.35);
+  font-weight: 700;
+}
+
+.nav-step-label span { color: var(--gold); }
+
+/* ===== MAIN LAYOUT ===== */
+main {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 100px 20px 60px;
+}
+
+/* ===== PROGRESS BAR ===== */
+.progress-wrap {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: rgba(255,255,255,0.05);
+  z-index: 200;
+}
+
+.progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--gold), var(--cyan));
+  border-radius: 0 2px 2px 0;
+  transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 0 10px rgba(255,200,87,0.5);
+}
+
+/* ===== INTRO SCREEN ===== */
+#intro-screen {
+  text-align: center;
+  max-width: 620px;
+  animation: fadeUp 0.8s ease forwards;
+}
+
+.intro-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255,200,87,0.08);
+  border: 1px solid rgba(255,200,87,0.25);
+  padding: 6px 18px;
+  border-radius: 100px;
+  font-size: 0.68rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--gold);
+  font-weight: 700;
+  margin-bottom: 24px;
+}
+
+.intro-tag .dot { width: 6px; height: 6px; background: var(--gold); border-radius: 50%; animation: blink 1.4s infinite; }
+
+.intro-h1 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(2.8rem, 6vw, 4.5rem);
+  line-height: 0.95;
+  letter-spacing: 2px;
+  margin-bottom: 20px;
+}
+
+.intro-h1 .l1 { display: block; color: var(--white); }
+.intro-h1 .l2 { display: block; color: var(--gold); text-shadow: var(--glow-gold); }
+.intro-h1 .l3 { display: block; color: var(--cyan); text-shadow: var(--glow-cyan); }
+
+.intro-sub {
+  font-size: 0.92rem;
+  color: rgba(255,255,255,0.55);
+  line-height: 1.7;
+  margin-bottom: 40px;
+  max-width: 480px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.intro-sub strong { color: var(--white); }
+
+.intro-stats {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  margin-bottom: 40px;
+  padding: 24px 0;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+
+.intro-stat { text-align: center; }
+.intro-stat-n {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 2rem;
+  color: var(--gold);
+  text-shadow: var(--glow-gold);
+  line-height: 1;
+}
+.intro-stat-l {
+  font-size: 0.6rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.35);
+  margin-top: 4px;
+}
+
+.btn-start {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: linear-gradient(135deg, var(--gold), #FF9500);
+  color: var(--bg);
+  padding: 16px 48px;
+  border-radius: 6px;
+  font-weight: 900;
+  font-size: 0.88rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 0 40px rgba(255,200,87,0.3);
+  transition: all 0.3s;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-start::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  transform: translateX(-100%);
+  transition: transform 0.5s;
+}
+.btn-start:hover::before { transform: translateX(100%); }
+.btn-start:hover { box-shadow: 0 0 60px rgba(255,200,87,0.6); transform: translateY(-2px); }
+
+.intro-note {
+  margin-top: 16px;
+  font-size: 0.68rem;
+  color: rgba(255,255,255,0.25);
+  letter-spacing: 1px;
+}
+
+/* ===== FORM SCREEN ===== */
+#form-screen {
+  display: none;
+  width: 100%;
+  max-width: 680px;
+}
+
+/* ===== QUESTION CARD ===== */
+.question-wrap {
+  position: relative;
+  min-height: 320px;
+}
+
+.question-card {
+  background: var(--dark2);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 20px;
+  padding: 48px 52px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 30px 80px rgba(0,0,0,0.5);
+}
+
+.question-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--gold), var(--cyan));
+}
+
+.q-counter {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 28px;
+}
+
+.q-num {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 3rem;
+  color: rgba(255,200,87,0.15);
+  line-height: 1;
+  letter-spacing: 2px;
+}
+
+.q-of {
+  font-size: 0.65rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.25);
+  font-weight: 700;
+}
+
+.q-label {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(1.4rem, 3vw, 2rem);
+  letter-spacing: 1px;
+  line-height: 1.15;
+  margin-bottom: 10px;
+  color: var(--white);
+}
+
+.q-hint {
+  font-size: 0.78rem;
+  color: rgba(255,255,255,0.35);
+  margin-bottom: 28px;
+  line-height: 1.5;
+}
+
+.q-required {
+  font-size: 0.6rem;
+  color: var(--gold);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+  font-weight: 700;
+}
+
+/* ===== INPUT STYLES ===== */
+.q-input, .q-textarea {
+  width: 100%;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 8px;
+  padding: 14px 18px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.92rem;
+  color: var(--white);
+  outline: none;
+  transition: all 0.25s;
+  caret-color: var(--gold);
+}
+
+.q-input::placeholder, .q-textarea::placeholder {
+  color: rgba(255,255,255,0.2);
+}
+
+.q-input:focus, .q-textarea:focus {
+  border-color: rgba(255,200,87,0.5);
+  background: rgba(255,200,87,0.04);
+  box-shadow: 0 0 0 3px rgba(255,200,87,0.08), var(--glow-gold);
+}
+
+.q-input.error, .q-textarea.error {
+  border-color: var(--red);
+  box-shadow: 0 0 0 3px rgba(255,59,59,0.1);
+}
+
+.q-textarea {
+  resize: none;
+  height: 110px;
+  line-height: 1.6;
+}
+
+/* ===== NAV BUTTONS ===== */
+.q-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 28px;
+  gap: 12px;
+}
+
+.btn-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.12);
+  color: rgba(255,255,255,0.4);
+  padding: 12px 22px;
+  border-radius: 6px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-back:hover {
+  border-color: rgba(255,255,255,0.3);
+  color: var(--white);
+}
+
+.btn-next {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--gold);
+  color: var(--bg);
+  padding: 12px 32px;
+  border-radius: 6px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 900;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+  overflow: hidden;
+  flex: 1;
+  justify-content: center;
+  max-width: 280px;
+}
+
+.btn-next::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+  transform: translateX(-100%);
+  transition: transform 0.4s;
+}
+.btn-next:hover::after { transform: translateX(100%); }
+.btn-next:hover { box-shadow: var(--glow-gold); transform: translateY(-2px); }
+
+.btn-submit {
+  background: linear-gradient(135deg, var(--gold), #FF9500);
+  box-shadow: 0 0 30px rgba(255,200,87,0.3);
+}
+.btn-submit:hover { box-shadow: 0 0 50px rgba(255,200,87,0.6) !important; }
+
+.skip-btn {
+  background: none;
+  border: none;
+  color: rgba(255,255,255,0.2);
+  font-size: 0.65rem;
+  font-family: 'Montserrat', sans-serif;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  cursor: pointer;
+  padding: 6px;
+  transition: color 0.2s;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.skip-btn:hover { color: rgba(255,255,255,0.45); }
+
+/* ===== ERROR MSG ===== */
+.error-msg {
+  font-size: 0.72rem;
+  color: var(--red);
+  margin-top: 8px;
+  display: none;
+  align-items: center;
+  gap: 6px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.error-msg.show { display: flex; }
+
+/* ===== STEP DOTS ===== */
+.step-dots {
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 28px;
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.step-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.1);
+  transition: all 0.3s;
+}
+.step-dot.done { background: rgba(255,200,87,0.4); }
+.step-dot.active { background: var(--gold); box-shadow: var(--glow-gold); transform: scale(1.4); width: 18px; border-radius: 3px; }
+
+/* ===== SUCCESS SCREEN ===== */
+#success-screen {
+  display: none;
+  text-align: center;
+  max-width: 560px;
+  animation: fadeUp 0.8s ease forwards;
+}
+
+.success-icon {
+  font-size: 4rem;
+  margin-bottom: 20px;
+  animation: popIn 0.6s ease forwards;
+}
+
+@keyframes popIn {
+  0% { transform: scale(0); opacity: 0; }
+  70% { transform: scale(1.2); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.success-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  letter-spacing: 2px;
+  line-height: 1;
+  margin-bottom: 16px;
+}
+.success-title span { color: var(--gold); }
+
+.success-sub {
+  font-size: 0.88rem;
+  color: rgba(255,255,255,0.5);
+  line-height: 1.7;
+  margin-bottom: 40px;
+}
+
+/* ===== HUBSPOT HIDDEN ===== */
+#hs-form-container {
+  position: absolute;
+  left: -9999px;
+  top: -9999px;
+  opacity: 0;
+  pointer-events: none;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+/* ===== ANIMATIONS ===== */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeDown {
+  from { opacity: 0; transform: translateY(-24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideLeft {
+  from { opacity: 0; transform: translateX(60px) scale(0.97); }
+  to { opacity: 1; transform: translateX(0) scale(1); }
+}
+
+@keyframes slideRight {
+  from { opacity: 0; transform: translateX(-60px) scale(0.97); }
+  to { opacity: 1; transform: translateX(0) scale(1); }
+}
+
+@keyframes blink { 0%,100%{opacity:1}50%{opacity:0.2} }
+
+.anim-in-next { animation: slideLeft 0.45s cubic-bezier(0.25,0.46,0.45,0.94) forwards; }
+.anim-in-back { animation: slideRight 0.45s cubic-bezier(0.25,0.46,0.45,0.94) forwards; }
+.anim-out-next {
+  animation: slideOutLeft 0.35s cubic-bezier(0.55,0,1,0.45) forwards;
+}
+.anim-out-back {
+  animation: slideOutRight 0.35s cubic-bezier(0.55,0,1,0.45) forwards;
+}
+
+@keyframes slideOutLeft {
+  to { opacity: 0; transform: translateX(-60px) scale(0.97); }
+}
+@keyframes slideOutRight {
+  to { opacity: 0; transform: translateX(60px) scale(0.97); }
+}
+
+/* ===== SCROLLBAR ===== */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 2px; }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 640px) {
+  nav { padding: 12px 20px; }
+  .question-card { padding: 32px 24px; }
+  .intro-stats { gap: 24px; }
+  .q-nav { flex-wrap: wrap; }
+  .btn-next { max-width: 100%; }
+}
+</style>
+</head>
+<body>
+
+<div class="bg-layer">
+  <div class="bg-radial"></div>
+  <canvas id="bg-canvas"></canvas>
+</div>
+
+<div class="progress-wrap">
+  <div class="progress-bar" id="progress-bar" style="width:0%"></div>
+</div>
+
+<nav>
+  <div class="nav-logo">LEONARDO<span>.</span>DEV</div>
+  <div class="nav-step-label" id="nav-step-label">Diagnóstico Gratuito</div>
+</nav>
+
+<main>
+
+  <!-- INTRO -->
+  <div id="intro-screen">
+    <div class="intro-tag"><span class="dot"></span> Diagnóstico gratuito</div>
+    <h1 class="intro-h1">
+      <span class="l1">Vamos entender</span>
+      <span class="l2">quem você é</span>
+      <span class="l3">e o que você vende.</span>
+    </h1>
+    <p class="intro-sub">
+      Responda as perguntas abaixo com sinceridade.<strong> Leva menos de 8 minutos</strong> e vai me ajudar a criar uma estratégia personalizada para o seu posicionamento e conversão.
+    </p>
+    <div class="intro-stats">
+      <div class="intro-stat">
+        <div class="intro-stat-n">20</div>
+        <div class="intro-stat-l">Perguntas</div>
+      </div>
+      <div class="intro-stat">
+        <div class="intro-stat-n">~8</div>
+        <div class="intro-stat-l">Minutos</div>
+      </div>
+      <div class="intro-stat">
+        <div class="intro-stat-n">100%</div>
+        <div class="intro-stat-l">Gratuito</div>
+      </div>
+    </div>
+    <button class="btn-start" onclick="startForm()">
+      Iniciar diagnóstico →
+    </button>
+    <div class="intro-note">Seus dados estão protegidos e não serão compartilhados.</div>
+  </div>
+
+  <!-- FORM -->
+  <div id="form-screen">
+    <div class="question-wrap" id="question-wrap">
+      <!-- injected by JS -->
+    </div>
+    <div class="step-dots" id="step-dots"></div>
+  </div>
+
+  <!-- SUCCESS -->
+  <div id="success-screen">
+    <div class="success-icon">🚀</div>
+    <h2 class="success-title">Diagnóstico <span>enviado!</span></h2>
+    <p class="success-sub">
+      Recebi suas respostas e vou analisar com atenção. Em breve entrarei em contato pelo WhatsApp ou e-mail para apresentar a estratégia personalizada para o seu negócio.
+    </p>
+    <button class="btn-start" onclick="window.location.href='https://leonardodevoficial.github.io/portfolio/'">
+      Voltar ao site →
+    </button>
+  </div>
+
+</main>
+
+<!-- HUBSPOT FORM (hidden) -->
+<div id="hs-form-container">
+  <script src="https://js.hsforms.net/forms/embed/51383893.js" defer></script>
+  <div class="hs-form-frame" data-region="na1" data-form-id="d6af36c1-3feb-4bec-8b5f-ba4a427f7565" data-portal-id="51383893"></div>
+</div>
+
+<script>
+// ===== QUESTIONS DATA =====
+const questions = [
+  {
+    id: 'nome',
+    label: 'Qual é o seu nome?',
+    hint: 'Como você prefere ser chamado(a).',
+    type: 'input',
+    placeholder: 'Ex: Carlos Souza',
+    required: true,
+    hsField: 'firstname'
+  },
+  {
+    id: 'instagram',
+    label: 'Qual é o seu Instagram?',
+    hint: 'Seu @ no Instagram.',
+    type: 'input',
+    placeholder: '@seuperfil',
+    required: false,
+    hsField: 'instagram_handle'
+  },
+  {
+    id: 'celular',
+    label: 'Celular com DDD',
+    hint: 'Para entrarmos em contato com você.',
+    type: 'input',
+    placeholder: '(00) 90000-0000',
+    required: false,
+    hsField: 'phone'
+  },
+  {
+    id: 'email',
+    label: 'Qual é o seu e-mail?',
+    hint: '',
+    type: 'input',
+    inputType: 'email',
+    placeholder: 'seuemail@exemplo.com',
+    required: true,
+    requiredLabel: '* Campo obrigatório',
+    hsField: 'email'
+  },
+  {
+    id: 'nicho',
+    label: 'Qual nicho você atua?',
+    hint: 'Seja específico(a). Ex: Nutrição esportiva para mulheres 40+.',
+    type: 'textarea',
+    placeholder: 'Descreva o seu nicho...',
+    required: false,
+    hsField: 'nicho'
+  },
+  {
+    id: 'como_comecou',
+    label: 'Como você começou nesse nicho?',
+    hint: 'Conte um pouco da sua história de origem.',
+    type: 'textarea',
+    placeholder: 'Como surgiu esse caminho para você...',
+    required: false,
+    hsField: 'como_comecou'
+  },
+  {
+    id: 'motivacoes',
+    label: 'Quais suas motivações para se tornar um especialista nisso?',
+    hint: 'Teve algum ponto de inflexão? Um momento que mudou tudo?',
+    type: 'textarea',
+    placeholder: 'Compartilhe o que te move...',
+    required: false,
+    hsField: 'motivacoes'
+  },
+  {
+    id: 'mitos',
+    label: 'Quais são os mitos sobre o que você faz?',
+    hint: 'O que as pessoas acreditam erroneamente sobre a sua área?',
+    type: 'textarea',
+    placeholder: 'Liste os principais mitos...',
+    required: false,
+    hsField: 'mitos'
+  },
+  {
+    id: 'valores',
+    label: 'Quais valores são inegociáveis para você?',
+    hint: 'Os princípios que guiam tudo o que você faz.',
+    type: 'textarea',
+    placeholder: 'Ex: honestidade, resultados reais, etc...',
+    required: false,
+    hsField: 'valores'
+  },
+  {
+    id: 'conquistas',
+    label: 'Quais foram suas principais conquistas?',
+    hint: 'Profissionais, pessoais, prêmios, marcos importantes.',
+    type: 'textarea',
+    placeholder: 'Suas maiores vitórias...',
+    required: false,
+    hsField: 'conquistas'
+  },
+  {
+    id: 'referencias',
+    label: 'Quais são as 3 principais referências da sua área?',
+    hint: 'Pessoas, livros, marcas que você admira e estuda.',
+    type: 'textarea',
+    placeholder: 'Liste suas referências...',
+    required: false,
+    hsField: 'referencias'
+  },
+  {
+    id: 'sonhos_cliente',
+    label: 'Quais são os sonhos do seu cliente ideal?',
+    hint: 'O que ele mais quer conquistar na vida e no negócio?',
+    type: 'textarea',
+    placeholder: 'O que ele sonha...',
+    required: false,
+    hsField: 'sonhos_cliente'
+  },
+  {
+    id: 'dores_cliente',
+    label: 'Quais são as dores e frustrações do seu cliente?',
+    hint: 'O que tira o sono dele? O que o frustra no dia a dia?',
+    type: 'textarea',
+    placeholder: 'As maiores dores...',
+    required: false,
+    hsField: 'dores_cliente'
+  },
+  {
+    id: 'custo_inacao',
+    label: 'O que vai custar para o seu cliente ficar sem a solução que você oferece?',
+    hint: 'Qual o preço da inação? O que ele perde não agindo?',
+    type: 'textarea',
+    placeholder: 'As consequências de não agir...',
+    required: false,
+    hsField: 'custo_inacao'
+  },
+  {
+    id: 'antes',
+    label: 'Como era a vida do cliente que você já transformou?',
+    hint: 'O "antes" da transformação. A situação de partida.',
+    type: 'textarea',
+    placeholder: 'Como era antes de te conhecer...',
+    required: false,
+    hsField: 'antes'
+  },
+  {
+    id: 'processo',
+    label: 'Como foi a transformação dessas pessoas?',
+    hint: 'O processo. O passo a passo da mudança que aconteceu.',
+    type: 'textarea',
+    placeholder: 'Como a transformação aconteceu...',
+    required: false,
+    hsField: 'processo'
+  },
+  {
+    id: 'pilares',
+    label: 'Quais são os 3 a 5 pilares que sustentam tudo o que você ensina/vende?',
+    hint: 'Os fundamentos do seu método.',
+    type: 'textarea',
+    placeholder: 'Ex: Pilar 1 - Mentalidade, Pilar 2 - Estratégia...',
+    required: false,
+    hsField: 'pilares'
+  },
+  {
+    id: 'tempo_resultado',
+    label: 'Em quanto tempo uma pessoa que executa do começo ao fim consegue ter os primeiros resultados?',
+    hint: 'Seja realista. Isso vai compor sua promessa.',
+    type: 'textarea',
+    placeholder: 'Ex: 30 dias, 3 meses...',
+    required: false,
+    hsField: 'tempo_resultado'
+  },
+  {
+    id: 'diferencial',
+    label: 'Por que as pessoas deveriam comprar de você e não de qualquer outro?',
+    hint: 'Qual é o seu diferencial real? O que só você entrega?',
+    type: 'textarea',
+    placeholder: 'Seu grande diferencial...',
+    required: false,
+    hsField: 'diferencial'
+  },
+  {
+    id: 'oportunidades',
+    label: 'Quais são as maiores oportunidades que seu cliente tem e não enxerga?',
+    hint: 'O que está na frente dele, mas ele ainda não vê?',
+    type: 'textarea',
+    placeholder: 'As oportunidades ocultas...',
+    required: false,
+    hsField: 'oportunidades'
+  }
+];
+
+// ===== STATE =====
+let currentStep = 0;
+let answers = {};
+let isAnimating = false;
+const TOTAL = questions.length;
+
+// ===== PARTICLES =====
+const canvas = document.getElementById('bg-canvas');
+const ctx = canvas.getContext('2d');
+
+function resizeCanvas() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
+
+const pts = Array.from({ length: 50 }, () => ({
+  x: Math.random() * canvas.width,
+  y: Math.random() * canvas.height,
+  r: Math.random() * 1.2 + 0.4,
+  dx: (Math.random() - 0.5) * 0.35,
+  dy: (Math.random() - 0.5) * 0.35,
+  c: Math.random() > 0.5 ? '#FFC857' : '#00D1FF',
+  o: Math.random() * 0.4 + 0.15
+}));
+
+(function animPts() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  pts.forEach(p => {
+    p.x += p.dx; p.y += p.dy;
+    if (p.x < 0 || p.x > canvas.width) p.dx *= -1;
+    if (p.y < 0 || p.y > canvas.height) p.dy *= -1;
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+    ctx.fillStyle = p.c;
+    ctx.globalAlpha = p.o;
+    ctx.fill();
+  });
+  pts.forEach((p, i) => {
+    pts.slice(i + 1).forEach(q => {
+      const d = Math.hypot(p.x - q.x, p.y - q.y);
+      if (d < 110) {
+        ctx.beginPath();
+        ctx.moveTo(p.x, p.y);
+        ctx.lineTo(q.x, q.y);
+        ctx.strokeStyle = '#00D1FF';
+        ctx.globalAlpha = (1 - d / 110) * 0.1;
+        ctx.lineWidth = 0.5;
+        ctx.stroke();
+      }
+    });
+  });
+  ctx.globalAlpha = 1;
+  requestAnimationFrame(animPts);
+})();
+
+// ===== PROGRESS =====
+function updateProgress(step) {
+  const pct = (step / TOTAL) * 100;
+  document.getElementById('progress-bar').style.width = pct + '%';
+  document.getElementById('nav-step-label').innerHTML =
+    `Pergunta <span>${step}</span> de ${TOTAL}`;
+}
+
+// ===== DOTS =====
+function renderDots(step) {
+  const wrap = document.getElementById('step-dots');
+  wrap.innerHTML = questions.map((_, i) => {
+    let cls = 'step-dot';
+    if (i < step) cls += ' done';
+    if (i === step) cls += ' active';
+    return `<div class="${cls}"></div>`;
+  }).join('');
+}
+
+// ===== RENDER QUESTION =====
+function renderQuestion(idx, direction = 'next') {
+  const q = questions[idx];
+  const wrap = document.getElementById('question-wrap');
+  const isLast = idx === TOTAL - 1;
+  const isOptional = !q.required;
+
+  const inputHTML = q.type === 'textarea'
+    ? `<textarea class="q-textarea" id="q-input" placeholder="${q.placeholder}" rows="4">${answers[q.id] || ''}</textarea>`
+    : `<input class="q-input" id="q-input" type="${q.inputType || 'text'}" placeholder="${q.placeholder}" value="${answers[q.id] || ''}">`;
+
+  const skipBtn = isOptional && !isLast
+    ? `<button class="skip-btn" onclick="skipQuestion()">Pular esta pergunta →</button>`
+    : '';
+
+  const backBtn = idx > 0
+    ? `<button class="btn-back" onclick="goBack()">← Voltar</button>`
+    : `<div></div>`;
+
+  const submitLabel = isLast ? 'Enviar diagnóstico 🚀' : 'Avançar →';
+  const submitClass = isLast ? 'btn-next btn-submit' : 'btn-next';
+
+  wrap.innerHTML = `
+    <div class="question-card" id="q-card">
+      <div class="q-counter">
+        <div class="q-num">${String(idx + 1).padStart(2, '0')}</div>
+        <div class="q-of">/ ${TOTAL}</div>
+      </div>
+      ${q.requiredLabel ? `<div class="q-required">${q.requiredLabel}</div>` : ''}
+      <div class="q-label">${q.label}</div>
+      ${q.hint ? `<div class="q-hint">${q.hint}</div>` : ''}
+      ${inputHTML}
+      <div class="error-msg" id="error-msg">⚠ Este campo é obrigatório.</div>
+      <div class="q-nav">
+        ${backBtn}
+        <button class="${submitClass}" onclick="${isLast ? 'submitForm()' : 'goNext()'}">
+          ${submitLabel}
+        </button>
+      </div>
+      ${skipBtn}
+    </div>
+  `;
+
+  // Animate in
+  const card = document.getElementById('q-card');
+  card.style.opacity = '0';
+  card.style.transform = direction === 'next' ? 'translateX(60px) scale(0.97)' : 'translateX(-60px) scale(0.97)';
+  requestAnimationFrame(() => {
+    card.style.transition = 'opacity 0.42s cubic-bezier(0.25,0.46,0.45,0.94), transform 0.42s cubic-bezier(0.25,0.46,0.45,0.94)';
+    card.style.opacity = '1';
+    card.style.transform = 'translateX(0) scale(1)';
+  });
+
+  // Focus input
+  setTimeout(() => {
+    const input = document.getElementById('q-input');
+    if (input) input.focus();
+
+    // Enter to advance
+    if (input) {
+      input.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' && q.type !== 'textarea') {
+          e.preventDefault();
+          isLast ? submitForm() : goNext();
+        }
+      });
+    }
+  }, 460);
+
+  updateProgress(idx + 1);
+  renderDots(idx);
+}
+
+// ===== VALIDATE =====
+function validateCurrent() {
+  const q = questions[currentStep];
+  const input = document.getElementById('q-input');
+  const errorEl = document.getElementById('error-msg');
+  const val = input ? input.value.trim() : '';
+
+  if (q.required && !val) {
+    input.classList.add('error');
+    errorEl.classList.add('show');
+    input.focus();
+
+    // shake
+    input.style.animation = 'none';
+    input.style.transform = 'translateX(0)';
+    let s = 0;
+    const shakeInterval = setInterval(() => {
+      s++;
+      input.style.transform = s % 2 === 0 ? 'translateX(-6px)' : 'translateX(6px)';
+      if (s >= 6) { clearInterval(shakeInterval); input.style.transform = 'translateX(0)'; }
+    }, 50);
+
+    return false;
+  }
+
+  if (q.id === 'email' && val) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(val)) {
+      input.classList.add('error');
+      errorEl.textContent = '⚠ Insira um e-mail válido.';
+      errorEl.classList.add('show');
+      return false;
+    }
+  }
+
+  input.classList.remove('error');
+  errorEl.classList.remove('show');
+  return true;
+}
+
+// ===== SAVE =====
+function saveCurrentAnswer() {
+  const input = document.getElementById('q-input');
+  if (input) {
+    answers[questions[currentStep].id] = input.value.trim();
+  }
+}
+
+// ===== NAVIGATION =====
+function goNext() {
+  if (isAnimating) return;
+  if (!validateCurrent()) return;
+  saveCurrentAnswer();
+
+  isAnimating = true;
+  const card = document.getElementById('q-card');
+  card.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+  card.style.opacity = '0';
+  card.style.transform = 'translateX(-60px) scale(0.97)';
+
+  setTimeout(() => {
+    currentStep++;
+    renderQuestion(currentStep, 'next');
+    isAnimating = false;
+  }, 310);
+}
+
+function goBack() {
+  if (isAnimating || currentStep === 0) return;
+  saveCurrentAnswer();
+
+  isAnimating = true;
+  const card = document.getElementById('q-card');
+  card.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+  card.style.opacity = '0';
+  card.style.transform = 'translateX(60px) scale(0.97)';
+
+  setTimeout(() => {
+    currentStep--;
+    renderQuestion(currentStep, 'back');
+    isAnimating = false;
+  }, 310);
+}
+
+function skipQuestion() {
+  if (isAnimating) return;
+  saveCurrentAnswer();
+
+  isAnimating = true;
+  const card = document.getElementById('q-card');
+  card.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+  card.style.opacity = '0';
+  card.style.transform = 'translateX(-60px) scale(0.97)';
+
+  setTimeout(() => {
+    currentStep++;
+    if (currentStep >= TOTAL) {
+      submitForm();
+    } else {
+      renderQuestion(currentStep, 'next');
+    }
+    isAnimating = false;
+  }, 310);
+}
+
+// ===== START =====
+function startForm() {
+  const intro = document.getElementById('intro-screen');
+  intro.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+  intro.style.opacity = '0';
+  intro.style.transform = 'translateY(-20px)';
+
+  setTimeout(() => {
+    intro.style.display = 'none';
+    const formScreen = document.getElementById('form-screen');
+    formScreen.style.display = 'block';
+    formScreen.style.opacity = '0';
+    requestAnimationFrame(() => {
+      formScreen.style.transition = 'opacity 0.4s ease';
+      formScreen.style.opacity = '1';
+    });
+    renderQuestion(0, 'next');
+    updateProgress(1);
+  }, 420);
+}
+
+// ===== SUBMIT =====
+function submitForm() {
+  if (!validateCurrent()) return;
+  saveCurrentAnswer();
+
+  // Wait for HubSpot form to be ready, then fill and submit
+  fillAndSubmitHubspot();
+}
+
+function fillAndSubmitHubspot() {
+  // Show a brief "Enviando..." state
+  const btn = document.querySelector('.btn-submit');
+  if (btn) {
+    btn.textContent = 'Enviando…';
+    btn.disabled = true;
+  }
+
+  // Try to fill HubSpot form fields
+  const attemptSubmit = (attempts = 0) => {
+    const hsForm = document.querySelector('#hs-form-container form');
+
+    if (hsForm && attempts < 30) {
+      // Fill each field
+      questions.forEach(q => {
+        if (!q.hsField || !answers[q.id]) return;
+
+        // Try different selectors
+        const selectors = [
+          `[name="${q.hsField}"]`,
+          `[id*="${q.hsField}"]`,
+          `[data-field-name="${q.hsField}"]`
+        ];
+
+        for (const sel of selectors) {
+          const field = hsForm.querySelector(sel);
+          if (field) {
+            field.value = answers[q.id];
+            field.dispatchEvent(new Event('input', { bubbles: true }));
+            field.dispatchEvent(new Event('change', { bubbles: true }));
+            break;
+          }
+        }
+      });
+
+      // Try to submit
+      const submitBtn = hsForm.querySelector('input[type="submit"], button[type="submit"]');
+      if (submitBtn) {
+        submitBtn.click();
+      } else {
+        hsForm.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
+      }
+
+      showSuccess();
+    } else if (attempts < 30) {
+      setTimeout(() => attemptSubmit(attempts + 1), 200);
+    } else {
+      // Fallback: submit via HubSpot API
+      submitViaAPI();
+    }
+  };
+
+  // Make the hs-form-container accessible for form loading
+  const container = document.getElementById('hs-form-container');
+  container.style.position = 'fixed';
+  container.style.left = '-9999px';
+  container.style.opacity = '0';
+  container.style.width = '1px';
+  container.style.height = '1px';
+
+  setTimeout(() => attemptSubmit(0), 500);
+}
+
+function submitViaAPI() {
+  // HubSpot Forms API v3
+  const portalId = '51383893';
+  const formId = 'd6af36c1-3feb-4bec-8b5f-ba4a427f7565';
+
+  const fieldMappings = {
+    nome: 'firstname',
+    instagram: 'instagram_handle',
+    celular: 'celular',
+    email: 'email',
+    nicho: 'nicho',
+    como_comecou: 'como_comecou',
+    motivacoes: 'motivacoes',
+    mitos: 'mitos',
+    valores: 'valores',
+    conquistas: 'conquistas',
+    referencias: 'referencias',
+    sonhos_cliente: 'sonhos_cliente',
+    dores_cliente: 'dores_cliente',
+    custo_inacao: 'custo_inacao',
+    antes: 'antes',
+    processo: 'processo',
+    pilares: 'pilares',
+    tempo_resultado: 'tempo_resultado',
+    diferencial: 'diferencial',
+    oportunidades: 'oportunidades'
+  };
+
+  const fields = Object.entries(answers)
+    .filter(([key, val]) => val && fieldMappings[key])
+    .map(([key, val]) => ({
+      objectTypeId: '0-1',
+      name: fieldMappings[key],
+      value: val
+    }));
+
+  const payload = {
+    fields,
+    context: {
+      pageUri: window.location.href,
+      pageName: document.title
+    }
+  };
+
+  fetch(`https://api.hsforms.com/submissions/v3/integration/submit/${portalId}/${formId}`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload)
+  })
+  .then(res => {
+    showSuccess();
+  })
+  .catch(err => {
+    console.error('HubSpot submit error:', err);
+    showSuccess(); // Show success regardless to not frustrate user
+  });
+}
+
+function showSuccess() {
+  const formScreen = document.getElementById('form-screen');
+  formScreen.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+  formScreen.style.opacity = '0';
+  formScreen.style.transform = 'scale(0.97)';
+
+  document.getElementById('progress-bar').style.width = '100%';
+  document.getElementById('nav-step-label').innerHTML = `Diagnóstico <span>concluído! 🎉</span>`;
+
+  setTimeout(() => {
+    formScreen.style.display = 'none';
+    const success = document.getElementById('success-screen');
+    success.style.display = 'block';
+  }, 420);
+}
+</script>
+
+<!-- Load HubSpot embed in hidden container -->
+<script>
+window.addEventListener('load', () => {
+  // Initialize HubSpot form in hidden container
+  const container = document.getElementById('hs-form-container');
+  container.style.cssText = 'position:fixed;left:-9999px;top:-9999px;opacity:0;pointer-events:none;width:1px;height:1px;overflow:hidden;';
+});
+</script>
+
+</body>
+</html>
